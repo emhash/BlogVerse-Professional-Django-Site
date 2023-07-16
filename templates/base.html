@@ -1,0 +1,162 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <title>{% block title %}{% endblock title %} | BlogVerse</title>
+      <link rel="stylesheet" href="{% static 'css/all.css' %}">
+      <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+      <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+      <link rel="stylesheet" href="{% static 'css/aos.css' %}">
+      <link rel="stylesheet" href="{% static 'css/Style.css' %}">
+      {% block favi %}{% endblock favi %}
+
+      {% block css %}{% endblock css %}
+   </head>
+   <body>
+
+
+    
+      <nav class="nav" >
+          <div class="nav-menu flex-row">
+            <div class="nav-brand">
+                <a href="{% url 'homes' %}" class="text-gray">BlogVerse</a>
+                
+              </div>
+              
+              <div class="toggle-collapse">
+                  <div class="toggle-icons">
+                      <i class="fas fa-bars"></i>
+                  </div>
+              </div>
+              <div>
+                  <ul class="nav-items">
+                      <li class="nav-link">
+                          <a href="{% url 'homes' %}">Home</a>
+                      </li>
+                      <li class="nav-link">
+                          <a href="{% url 'the_about' %}">Contact Us</a>
+                      </li>
+
+  
+                      {% if user.is_authenticated %}
+                      
+                      <li class="nav-link">
+                          <a href="{% url 'the_dashb' %}">Dashboard</a>
+                      </li>
+                      <li class="nav-link">
+                          <a href="{% url 'dynamic_option' 'your_profile' %}">Profile</a>
+                      </li>
+                      <li class="nav-link">
+                        <a href="{% url 'logout' %}">Logout</a>
+                    </li>
+
+                      {% if user.is_staff %}
+                      <li class="nav-link">
+                        <a href="{% url 'admin:index' %}">Admin Panel</a>
+                    </li>
+                    
+                    {% endif %}
+                                       
+                  
+
+
+                      {% else %}
+                      <li class="nav-link">
+                          <a href="{% url 'the_login' %}">Authentication</a>
+                      </li>
+                      
+                      {% endif %}
+
+
+                      <li class="nav-link">
+                        {% block search %}{% endblock search %}
+                      </li>
+  
+
+
+                  </ul>
+              </div>
+              <div class="social text-gray">
+                  <a href="#"><i class="fab fa-facebook-f"></i></a>
+                  <a href="#"><i class="fab fa-instagram"></i></a>
+                  <a href="#"><i class="fab fa-twitter"></i></a>
+                  <a href="#"><i class="fab fa-youtube"></i></a>
+              </div>
+          </div>
+      </nav>
+
+
+
+     {% block content %}
+     {% endblock %}
+
+
+
+    
+
+      <footer class="footer" >
+         <div class="container" >
+             <div class="about-us" data-aos="fade-right" data-aos-delay="200">
+                 <h2>About us</h2>
+                 <p style="color : black;">
+                     BlogVerse is a plateform where you can post anything creative in your mind.You can share your ideas , tips, tricks, travel blog, food blog etc with people. You are not to meant for a paid logged in user. Just sign up and start  your journey.
+                 </p>
+             </div>
+             <div class="newsletter" data-aos="fade-right" data-aos-delay="200">
+                 <h2>Subscribe For Notification</h2>
+                 <p>Stay tuned with us</p>
+                 <div class="form-element">
+                     <input type="text" placeholder="Email"><span><i class="fas fa-chevron-right"></i></span>
+                 </div>
+             </div>
+ 
+{% comment %}                
+             <div class="instagram" data-aos="fade-left" data-aos-delay="200">
+                 <h2>Instagram</h2>
+                 <div class="flex-row">
+                     <img src="{% static 'assets/instagram/thumb-card3.png' %}" alt="insta1">
+                     <img src="{% static 'assets/instagram/thumb-card4.png' %}" alt="insta2">
+                     <img src="{% static 'assets/instagram/thumb-card5.png' %}" alt="insta3">
+                 </div>
+                 <div class="flex-row">
+                     <img src="{% static 'assets/instagram/thumb-card6.png' %}" alt="insta4">
+                     <img src="{% static 'assets/instagram/thumb-card7.png' %}" alt="insta5">
+                     <img src="{% static 'assets/instagram/thumb-card8.png' %}" alt="insta6">
+                 </div>
+             </div> 
+               {% endcomment %}
+ 
+             
+             <div class="follow" data-aos="fade-left" data-aos-delay="200">
+                 <h2>Follow here</h2>
+                 <p>Find us in Social</p>
+                 <div>
+                     <i class="fab fa-facebook-f"></i>
+                     <i class="fab fa-twitter"></i>
+                     <i class="fab fa-instagram"></i>
+                     <i class="fab fa-youtube"></i>
+                 </div>
+             </div>
+         </div>
+         <div class="rights flex-row">
+             <h4 class="text-gray">
+                 Copyright ©{{curnt_year}}2023 All rights reserved | made by
+                 <a href="https://github.com/emhash" >@emhash <i class="fab fa-github"></i>
+                     </a>
+             </h4>
+         </div>
+         <div class="move-up">
+             <span><i class="fas fa-arrow-circle-up fa-2x"></i></span>
+         </div>
+     </footer>
+   
+     <script src="{% static 'js/Jquery3.4.1.min.js' %}"></script>
+     <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+     <script src="{% static 'js/aos.js' %}"></script>
+     <script src="{% static 'js/main.js' %}"></script>
+   </body>
+ 
+</html>

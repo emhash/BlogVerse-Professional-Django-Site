@@ -1,0 +1,251 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}SignUp{% endblock title %}
+{% block css %}
+
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+
+{% endblock css %}
+
+{% block favi %}
+<link type="image/png" sizes="120x120" rel="icon" href="{% static 'image/signup.ico' %}">
+{% endblock favi %}
+
+
+
+{% block content %}
+
+
+
+{% for message in messages %}
+
+<style>
+
+
+    @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap");
+
+    :root {
+      --bg-clr: #262434;
+      --white: #fff;
+      --text-primary-clr: #282c36;
+      --text-secondary-clr: black;
+      --success-clr: #35d39d;
+      --success-bg-clr: #e4fcf3;
+      --info-clr: #00d0ea;
+      --info-bg-clr: #e5fafd;
+      --warning-clr: #ffc12e;
+      --warning-bg-clr: #fff9ea;
+      --error-clr: #ef4d61;
+      --error-bg-clr: #fdedef;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Open Sans", sans-serif;
+    }
+    
+
+    .alert_wrapper .alert_item {
+      max-width: 400px;
+      width: 100%;
+      background: var(--white);
+      margin-bottom: 25px;
+      padding: 15px 20px;
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 0 2px rgba(0, 0, 0, 0.15);
+    }
+    
+    .alert_wrapper .alert_item .text {
+      padding: 0 5px 0 15px;
+      width: calc(100% - 64px);
+    }
+    
+    .alert_wrapper .alert_item .text h3 {
+      font-size: 14px;
+      margin-bottom: 5px;
+      color: var(--text-primary-clr);
+    }
+    
+    .alert_wrapper .alert_item .text p {
+      color: var(--text-secondary-clr);
+    }
+    
+    .alert_wrapper .alert_item .icon,
+    .alert_wrapper .alert_item .close {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+    }
+    
+    .alert_wrapper .alert_item .icon ion-icon {
+      color: var(--white);
+      font-size: 18px;
+    }
+    
+    .alert_wrapper .alert_item .close {
+      font-size: 20px;
+      color: var(--text-secondary-clr);
+    }
+    
+    .alert_wrapper .alert_item .close ion-icon {
+      cursor: pointer;
+      transition: all 0.5s ease;
+    }
+    
+    .alert_wrapper .alert_item.success_item {
+      background: var(--success-bg-clr);
+    }
+    
+    .alert_wrapper .alert_item.success_item .icon {
+      background: var(--success-clr);
+    }
+    
+    .alert_wrapper .alert_item.info_item {
+      background: var(--info-bg-clr);
+    }
+    
+    .alert_wrapper .alert_item.info_item .icon {
+      background: var(--info-clr);
+    }
+    
+    .alert_wrapper .alert_item.warning_item {
+      background: var(--warning-bg-clr);
+    }
+    
+    .alert_wrapper .alert_item.warning_item .icon {
+      background: var(--warning-clr);
+    }
+    
+    .alert_wrapper .alert_item.error_item {
+      background: var(--error-bg-clr);
+    }
+    
+    .alert_wrapper .alert_item.error_item .icon {
+      background: var(--error-clr);
+    }
+    
+    .alert_wrapper .alert_item.success_item .close ion-icon:hover {
+      color: var(--success-clr);
+    }
+    
+    .alert_wrapper .alert_item.info_item .close ion-icon:hover {
+      color: var(--info-clr);
+    }
+    
+    .alert_wrapper .alert_item.warning_item .close ion-icon:hover {
+      color: var(--warning-clr);
+    }
+    
+    .alert_wrapper .alert_item.error_item .close ion-icon:hover {
+      color: var(--error-clr);
+    }
+    
+    .alert_wrapper.alert_wrapper_2 .alert_item {
+      border-radius: 50px;
+    }
+    
+    .alert_wrapper.alert_wrapper_3 .alert_item.success_item {
+      border: 2px solid var(--success-clr);
+    }
+    
+    .alert_wrapper.alert_wrapper_3 .alert_item.info_item {
+      border: 2px solid var(--info-clr);
+    }
+    
+    .alert_wrapper.alert_wrapper_3 .alert_item.warning_item {
+      border: 2px solid var(--warning-clr);
+    }
+    
+    .alert_wrapper.alert_wrapper_3 .alert_item.error_item {
+      border: 2px solid var(--error-clr);
+    }
+    
+
+
+</style>
+
+
+<div class="alert_wrapper alert_wrapper_3" >
+    <div class="alert_item success_item" >
+      <div class="icon">
+        <ion-icon name="information"></ion-icon>
+      </div>
+      <div class="text" style="color : black;">
+        <h3>NOTICE!</h3>
+        <p>{{message}}</p>
+      </div>
+      <div class="close">
+        <a href="{% url 'homes' %}"><ion-icon name="close"></ion-icon></a>
+      </div>
+    </div>
+</div>
+  
+{% endfor %}
+
+<div class="wrapper">
+	<div class="header">
+		<div class="top">
+			<div class="logo">
+        <h2 style="margin-left : 30px;margin-bottom : 21px;">βＬӨGVΣЯƧΣ</h2>
+			</div>
+
+      <form action="" method="POST" novalidate>
+			{% csrf_token %}
+        <div class="form">
+       
+          {% for field in form %}
+          <div class="input_field">
+            
+            {{ field }}
+          </div>
+            {% if field.errors %}
+              <p class="error text-danger">{{ field.errors.as_text }}</p>
+            {% endif %}
+            <br>
+          {% endfor %}
+
+          {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+              {% for error in form.non_field_errors %}
+                <p>{{ error }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          <div >
+            <button class="btn" type="submit">Sign Up</button>
+          </div>
+
+			  </div>
+
+      </form>
+
+			<div class="or">
+				<div class="line"></div>
+				<p>OR</p>
+				<div class="line"></div>
+			</div>
+			<div class="dif">
+				<div class="ggl">
+					<img src="{% static 'image/gg.jpg' %}" alt="google">
+					<p>Sign Up with Google</p>
+				</div>
+			</div>
+		</div>
+		<div class="signup">
+			<p>Member here ? <a href="{% url 'the_login' %}">SignIn</a></p>
+		</div>
+		
+	</div>
+
+</div>
+{% endblock content %}
+
+

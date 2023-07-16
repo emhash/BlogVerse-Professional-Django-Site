@@ -1,0 +1,172 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}{% endblock title %} | BlogVerse</title>
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css'>
+
+  {% block favi %}{% endblock favi %}
+<link rel='stylesheet' href='https://unicons.iconscout.com/release/v3.0.6/css/line.css'>
+<link rel="stylesheet" href="{% static 'css/temp.css' %}">
+{% block css %}{% endblock css %}
+</head>
+<body>
+<!-- partial:index.partial.html -->
+
+<aside class="sidebar position-fixed top-0 left-0 overflow-auto h-100 float-left" id="show-side-navigation1">
+    <i class="uil-bars close-aside d-md-none d-lg-none" data-close="show-side-navigation1"></i>
+    <div class="sidebar-header d-flex justify-content-center align-items-center px-3 py-4">
+      <img class="rounded-pill img-fluid" width="65" src="{{profile.profile_picture}}" alt="">
+      <div class="ms-2">
+        <h5 class="fs-6 mb-0">
+          <a class="text-decoration-none" href="#">{{profile.user.username}}</a>
+        </h5>
+        <p class="mt-1 mb-0">Blogverse welcome you wisely, You are a user and post manager and author.</p>
+      </div>
+    </div>
+  
+    <div class="search position-relative text-center px-4 py-3 mt-2">
+      <input type="text" class="form-control w-100 border-0 bg-transparent" placeholder="Search here">
+      <i class="uil-search position-absolute d-block fs-6"></i>
+    </div>
+  
+    <ul class="categories list-unstyled">
+        {% if user.is_authenticated %}
+
+        <li class="">
+          <i class="uil-edit"></i><a href="{% url 'dynamic_option' 'make_post' %}"> Create Posts</a>
+        </li>
+  
+        <li class="">
+          <i class="uil-postcard"></i><a href="{% url 'dynamic_option' 'your_posts' %}"> Your Posts</a>
+        </li>
+        
+        <li class="">
+          <i class="uil-create-dashboard"></i><a href="{% url 'the_dashb' %}"> Dashboard</a>
+        </li>
+        {% if user.is_superuser %}
+        <li class="">
+            <i class="uil-user-nurse"></i><a href="{% url 'admin:index' %}">Admin Panel</a>
+        </li>
+        {% endif %}
+        
+           
+        {% endif %}
+        <li class="">
+            <i class="uil-home"></i><a href="{% url 'homes' %}"> Back Home Page</a>
+        </li>
+
+      <li class="">
+        <i class="uil-cog"></i><a href="{% url 'dynamic_option' 'your_profile' %}">Account Settings</a>
+        
+      </li>
+
+
+      <li class="">
+        <i class="uil-envelope-download"></i><a href="#"> Mailbox</a>
+      </li>
+
+      <li class="has-dropdown">
+        <i class="uil-chart"></i><a href="#">Posts Charts</a>
+        
+      </li>
+      <li class="">
+        <i class="uil-location-point"></i><a href="#">Share Location</a>
+      </li>
+    </ul>
+  </aside>
+  
+
+
+
+<section id="wrapper">
+
+    
+  <nav class="navbar navbar-expand-md">
+    <div class="container-fluid mx-2">
+      <div class="navbar-header">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#toggle-navbar" aria-controls="toggle-navbar" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="uil-bars text-white"></i>
+        </button>
+        <a class="navbar-brand" href="{% url 'homes' %}">Blog<span class="main-color">Verse</span></a>
+      </div>
+      <div class="collapse navbar-collapse" id="toggle-navbar">
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Account
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li>
+                    <a class="dropdown-item" href="{% url 'dynamic_option' 'your_profile' %}">My account</a>
+                    </li>
+                    
+                    <li><a class="dropdown-item" href="{% url 'homes' %}">Help</a>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{% url 'logout' %}">Log out</a></li>
+                </ul>
+            </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"><i class="uil-comments-alt"></i><span>0</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"><i class="uil-bell"></i><span>0</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i data-show="show-side-navigation1" class="uil-bars show-side-btn"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+
+{% comment %} CHART OF HISTORY OF INCOME OR POST OR VIEWS , LIKES ETC {% endcomment %}
+
+
+{% comment %} 
+    <section class="charts mt-4">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="chart-container rounded-2 p-3">
+            <h3 class="fs-6 mb-3">Chart title number one</h3>
+            
+            <canvas id="myChart" style="display: block; width: 457px; height: 535px;" width="457" height="535" class="chartjs-render-monitor"></canvas>
+
+
+
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="chart-container rounded-2 p-3">
+            <h3 class="fs-6 mb-3">Chart title number two</h3>
+            <canvas id="myChart2"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+{% endcomment %}
+
+{% block content %}{% endblock content %}
+
+
+
+  </div>
+</section>
+<!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.js'></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script  src="{% static 'js/temp.js' %}"></script>
+
+
+{% block js %}{% endblock js %}
+
+</body>
+</html>

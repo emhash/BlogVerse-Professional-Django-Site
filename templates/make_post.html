@@ -1,0 +1,86 @@
+{% extends 'base2.html' %}
+{% load static %}
+
+{% block title %}
+Create Post
+{% endblock title %}
+
+
+
+{% block favi %}
+<link type="image/x-icon" sizes="256x256" rel="icon" href="{% static 'image/create.ico' %}">
+{% endblock favi %}
+
+
+
+{% block content %}
+
+
+<section class="charts mt-4">
+  <div class="row">
+    <div class="col-lg-6 mx-auto">
+      <div class="chart-container rounded-2 p-3">
+        <h3 class="fs-6 mb-3 text-center" style="color: gold;">Create Post</h3>
+        
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+        
+          <div class="mb-4">
+            <div class="form-outline" style="color: gold;">
+              <label class="form-label" for="form4Example1">Title</label>
+              {{form.title}}
+              <div class="form-notch">
+                <div class="form-notch-leading" style="width: 9px;"></div>
+                <div class="form-notch-middle" style="width: 42.4px;"></div>
+                <div class="form-notch-trailing"></div>
+              </div>
+            </div>
+          </div>
+        
+          <div class="mb-4">
+            <div class="form-outline" style="color: gold;">
+              <label class="form-label" for="form4Example3">Description</label>
+              {{form.media}}
+              {{form.descript}}
+              <div class="form-notch">
+                <div class="form-notch-leading" style="width: 9px;"></div>
+                <div class="form-notch-middle" style="width: 60px;"></div>
+                <div class="form-notch-trailing"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <div class="form-outline" style="color: gold;">
+              <label class="form-label" for="form4Example4">Upload Picture</label>
+              {{form.picture}}
+              <div class="form-notch">
+                <div class="form-notch-leading" style="width: 9px;"></div>
+                <div class="form-notch-middle" style="width: 98px;"></div>
+                <div class="form-notch-trailing"></div>
+              </div>
+            </div>
+          </div>
+        
+          
+          <div id="select-wrapper" class="select-wrapper ml-2" style="color: gold;">
+            <p>Category</p>
+            {{form.category}}
+            
+          </div>
+        
+        
+          <button type="submit" class="btn btn-primary btn-block mb-4 mt-3">Create</button>
+        </form>
+        
+        
+      </div>
+    </div>
+   
+  </div>
+</section>
+
+
+
+
+{% endblock content %}

@@ -1,0 +1,21 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+.css1 {
+  font-size: 20px;
+  font-family: 'Press Start 2P', cursive;
+  font-weight: bold;
+  color: purple;
+  text-shadow: 2px 2px 8px #f1f1f1;
+}
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-container img {
+  max-width: 50px;
+  height: auto;
+  margin-right: 10px;
+}

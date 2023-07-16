@@ -1,0 +1,71 @@
+.signup-container {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+}
+
+.signup-form {
+   background-color: #7cacf8;
+   padding: 40px;
+   padding-left: 90px;
+   padding-right: 90px;
+   border-radius: 10px;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+   text-align: center;
+   max-width: 500px; /* Adjust the width as needed */
+}
+
+.signup-form h2 {
+   font-size: 24px;
+   margin-bottom: 20px;
+   color: var(--text-gray);
+   font-family: "Arial", sans-serif; /* Specify the desired font family */
+}
+
+.form-group {
+   margin-bottom: 20px;
+}
+
+.form-group label {
+   display: block;
+   text-align: left;
+   margin-bottom: 5px;
+   color: var(--text-gray);
+   font-size: 16px;
+   font-family: "Arial", sans-serif; /* Specify the desired font family */
+}
+
+.form-group input {
+   width: 300px;
+   padding: 10px;
+   font-size: 16px;
+   border-radius: 5px;
+   border: 1px solid var(--text-gray);
+}
+
+.btn-signup {
+   background-color: rgb(24, 13, 53);
+   color: #37dbe0;
+   padding: 10px 20px;
+   font-size: 16px;
+   border: none;
+   border-radius: 5px;
+   cursor: pointer;
+}
+
+.signup-text {
+   margin-top: 10px;
+   color: var(--text-gray);
+   font-size: 14px;
+   font-family: "Arial", sans-serif; /* Specify the desired font family */
+}
+
+.signup-text a {
+   color: var(--sky);
+   text-decoration: underline;
+}
+
+.signup-text a:hover {
+   text-decoration: none;
+}

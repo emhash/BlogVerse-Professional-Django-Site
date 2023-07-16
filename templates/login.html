@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+
+{% endblock css %}
+{% block favi %}      
+<link type="image/x-icon" sizes="256x256" rel="icon" href="{% static 'image/login.ico' %}">
+{% endblock favi %}
+{% block content %}
+
+{% for message in messages %}
+
+<style>
+  /* Container styles */
+  .container-x {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #ffffff;
+      width: 400px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(5px);
+      z-index: 9999;
+  }
+  
+  /* Header styles */
+  .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+  }
+  
+  .header h2 {
+      margin: 0;
+      font-size: 20px;
+      color: #333333;
+  }
+  
+  .header .close-icon {
+      font-size: 16px;
+      color: #999999;
+      cursor: pointer;
+  }
+  
+  /* Content styles */
+  .content {
+      margin-bottom: 20px;
+  }
+  
+  .content p {
+      margin: 0;
+      font-size: 16px;
+      color: #666666;
+  }
+  
+  /* Button styles */
+  .button {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 5px;
+      background-color: #4CAF50;
+      color: #ffffff;
+      font-size: 16px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+  }
+  
+  .button:hover {
+      background-color: #45a049;
+  }
+  
+  /* Icon styles */
+  .icon {
+      font-size: 24px;
+      margin-right: 10px;
+  }
+</style>
+
+<div class="container-x">
+  <div class="header">
+      <h2 style="color: red;"> Done!</h2>
+      <a href="{% url 'homes' %}"><span class="close-icon">&#10005;</span></a>
+  </div>
+  <div class="content">
+      <p><span class="icon">&#128161;</span>{{message}}</p>
+  </div>
+  <a href="{% url 'homes' %}" class="button">Refresh</a>
+</div>
+
+
+
+
+{% endfor %}
+
+<div class="wrapper">
+	<div class="header">
+		<div class="top">
+			<div class="logo" >
+        <h2 style="margin-left : 30px;margin-bottom : 21px;">βＬӨGVΣЯƧΣ</h2>
+				{% comment %} <img src="{% static 'image/blogverse.png' %}" alt="instagram" style="width: 175px;"> {% endcomment %}
+			</div>
+
+      <form action="" method="POST">
+			{% csrf_token %}
+        <div class="form">
+				<div class="input_field">
+					<input name="username" type="text" placeholder="username" class="input">
+				</div>
+				<div class="input_field">
+					<input name=password type="password" placeholder="Password" class="input">
+				</div>
+				<div >
+          <button class="btn" type="submit">Log In</button>
+        </div>
+			</div>
+
+      </form>
+
+			<div class="or">
+				<div class="line"></div>
+				<p>OR</p>
+				<div class="line"></div>
+			</div>
+			<div class="dif">
+				<div class="ggl">
+					<img src="{% static 'image/gg.jpg' %}" alt="google">
+					<p>Log in with Google</p>
+				</div>
+				<div class="forgot">
+					<a href="#">Forgot password?</a>
+				</div>
+			</div>
+		</div>
+		<div class="signup">
+			<p>Don't have an account? <a href="{% url 'the_signup' %}">Sign up</a></p>
+		</div>
+		
+	</div>
+
+</div>
+{% endblock content %}
+
+
