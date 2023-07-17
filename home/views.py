@@ -448,7 +448,9 @@ def f404(request, slg):
     if slg == 'donttrytohackadminpagethis-is-the-universal-admin-panel-lol':
         return redirect('eha/donttrytohackadminpagethis-is-the-universal-admin-panel-lol/')
     if slg == 'logout':
-        return logout(request)
+        logout(request)
+        messages.success(request, "You have successfully logged out! and you have no longer access to perform any operation")
+        return redirect('homes')
     if slg == 'login':
         return the_login(request)
     if slg == 'registration':
