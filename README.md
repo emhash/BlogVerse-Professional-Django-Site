@@ -7,6 +7,21 @@
 » Article read, comment and many more.. <br>
 <br>
 
+<h2>
+Main Page and DashBoard
+</h2>
+
+<div align='center'>
+  <img align="center" alt="Coding" width="70%" src="https://user-images.githubusercontent.com/109217697/256866612-d134125e-920d-46f9-ab69-600dd928d760.png">
+ <hr>
+  <img align="center" alt="Coding" width="70%" src="https://user-images.githubusercontent.com/109217697/256866611-ecfe0b5e-ed88-477c-bb84-033bd02e6f8b.png">
+ <hr>
+  <img align="center" alt="Coding" width="70%" src="https://user-images.githubusercontent.com/109217697/256866600-2c8ec756-2f54-45bb-a354-d3314690457b.png">
+ <hr>
+  <img align="center" alt="Coding" width="70%" src="https://user-images.githubusercontent.com/109217697/256866635-1a9b7a00-808e-4c51-8859-9d33cb3dfefa.png">
+</div>
+
+
 <h3 align='center'>Animated Demo</h3>
 
 
