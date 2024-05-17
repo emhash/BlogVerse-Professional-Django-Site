@@ -9,6 +9,7 @@ from home import views
 urlpatterns = [
     
     path('', views.home, name="homes"),
+    path('posts/', views.all_posts, name="all_posts"),
     path('<slug:slg>/', views.f404, name="homes"),
     path('registration/', views.Registration, name= "the_signup"),
     path('login/', views.the_login, name= "the_login"),

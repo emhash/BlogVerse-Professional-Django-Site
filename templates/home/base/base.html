@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--TITLE-->
+    <title>BlogVerse | {% block title %}{% endblock title %}</title>
+    <!--SHORTCUT ICON-->
+    <link rel="shortcut icon" href="../images/favicon.icon">
+    <!--META TAGS-->
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <!--FONTAWESOME-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
+    <link rel="stylesheet" href="{% static "css/nav.css" %}">
+  </head>
+  <body>
+    {% comment %} {% include "home/base/nav.html" %} {% endcomment %}
+    <!--HEADER-->
+    <header style="background: linear-gradient(rgba(1,1,1,.5), rgba(1,1,1,.5)), url(https://camo.githubusercontent.com/fada7a14206b5b513a56523974e99d485ae7be0d331cef14dbdd6b8c418ce235/68747470733a2f2f63646e622e61727473746174696f6e2e636f6d2f702f6173736574732f696d616765732f696d616765732f3031392f3832342f3435352f6f726967696e616c2f6a696e64726963682d7374656a736b616c2d61737472616c2d7363656e652d76312d66696e616c2e6769663f31353635313539373538);">
+      <section>
+        <h1 class="title">BlogVerse - "Unleash Your Creativiry"</h1>
+        <span>
+          <a href="{% url "homes" %}">Home</a> |
+          <a href="#">Contact Us</a> |
+          <a href="#">Blogs</a> |
+          <a href="#">Login</a> 
+        </span>
+      </section>
+    </header>
+    <!--BLOG SECTION-->
+    {% block content %}{% endblock content %}
+    <!--REMOVE THIS-->
+    
+
+    <script type="module" src="https://cdn.skypack.dev/ionicons@5.2.3/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://cdn.skypack.dev/ionicons@5.2.3/dist/ionicons/ionicons.js"></script>
+    
+    <script>
+        const list = document.querySelectorAll('.list');
+    
+        function activeLink() {
+            list.forEach((item) => item.classList.remove('active'));
+            this.classList.add('active');
+        }
+    
+        list.forEach((item) => item.addEventListener('click', activeLink));
+    </script>
+    
+    
+
+  </body>
+</html>

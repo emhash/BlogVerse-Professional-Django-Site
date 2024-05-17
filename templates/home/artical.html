@@ -1,0 +1,50 @@
+{% extends "home/base/base.html" %}
+{% block title %}Article{% endblock title %}
+{% block content %}
+<div class="blog_container">
+   
+   <div class="blog_content">
+      <h1 style="justify-content:center; color:navyblue;">{{content.title}}</h1>
+      {{content.descript|safe}}
+      
+  </div>
+
+   <div class="blog_content right_content">
+   
+      <!--CATEGORIES COLUMN BEGINING-->
+      <div class="columns categories">
+      <span class="title">Categories</span>
+      <section>
+          {% for item in categories %}
+          <a href="#">{{item}} </a>
+          {% endfor %}
+      </section>
+      </div>
+      <!--CATEGORIES COLUMN ENDS-->
+      <!--POSTS COLUMN BEGINING-->
+      <div class="columns posts">
+      <span class="title">Most Viewed Posts <a href="#" title="Explore More"><i class="fa fa-share"></i></a></span>
+      <section>
+          {% for data in posts %}
+          <a href="#">
+              <img src="{{data.picture.url}}" alt="" loading="lazy"> 
+              <p>{{data.title}}</p>
+          </a>
+          {% endfor %}
+      </section>
+      </div>
+      <!--POSTS COLUMN ENDS-->
+
+      <!--SOCIAL MEDIA ICONS BEGINING-->
+      <div class="columns social_icons">
+      <a href="#" title="Facebook"><i class="fa fa-facebook"></i></a>
+      <a href="#" title="Instagram"><i class="fa fa-instagram"></i></a>
+      <a href="#" title="Youtube"><i class="fa fa-youtube"></i></a>
+      <a href="#" title="Whatsapp"><i class="fa fa-whatsapp"></i></a>
+      <a href="#" title="Telegram"><i class="fa fa-telegram"></i></a>
+      </div>
+      <!--SOCIAL MEDIA ICONS ENDS-->
+   </div>
+</div>
+
+{% endblock content %}

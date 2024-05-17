@@ -13,12 +13,6 @@ from django.db import models
 from django.utils.html import strip_tags
 
 def home(request):
-    # # print the first title from DB
-    # tittle = Contents.objects.first().title
-    # # print all the title from DB
-    # tittle2 = list(Contents.objects.values_list('title', flat=True))
-    # print(tittle)
-    # print(tittle2)
     category = request.GET.get('category')
     search_query = request.GET.get('searchpost')
 
@@ -100,17 +94,20 @@ def home(request):
     except:
         mymsg = []
 
+    recent_comment = Comment.objects.all().order_by("created_at")[:7]
     home_content = {
+        "5_recent":all_post[:5],
         "page_obj": page_obj,
         "categories": e_d,
         "top_posts": top_posts,
         "headlinetoday": mymsg[0] if mymsg else None,
         "msgtwo": mymsg[1] if len(mymsg) > 1 else None,
+        "recent_comment":recent_comment,
     }
 
 
     
-    return render(request, "home.html", context=home_content  )
+    return render(request, "home/index.html", context=home_content  )
 
 
 
@@ -270,7 +267,7 @@ def artical_view(request, the_artical):
     timeneed = (f"{to_read[0]}.{(to_read[1])[:1]} min")
 
     # the most viewed post
-    most_viewed_post = Contents.objects.all().order_by('-views')
+    most_viewed_post = Contents.objects.all().order_by('-views')[:6]
     
     
     comments = Comment.objects.filter(content=content)
@@ -293,6 +290,7 @@ def artical_view(request, the_artical):
             return HttpResponseRedirect(request.get_full_path())
 
     context = {
+        'categories':Category.objects.all(),
         'content': content,
         'posts': most_viewed_post,
         'user_profile': user_profile,
@@ -306,7 +304,48 @@ def artical_view(request, the_artical):
     content.save()
     # print(content.views)
 
-    return render(request, 'artical.html', context)
+    return render(request, 'home/artical.html', context)
+
+
+def all_posts(request):
+    category = request.GET.get('category')
+    search_query = request.GET.get('searchpost')
+
+    if category:
+        all_post = Contents.objects.filter(category__name=category).order_by('-uploaded_at')
+        
+
+    elif search_query:
+        all_post = Contents.objects.filter(title__icontains=search_query).order_by('-uploaded_at')
+    else:
+        
+        all_post = Contents.objects.all().order_by('-uploaded_at')
+    
+
+    paginator = Paginator(all_post, 20)
+
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+
+    categories = Category.objects.all()
+    context = {
+        "page_obj":page_obj,
+        "categories":categories,
+        "top_5": None,
+    }
+    return render(request, "home/posts.html", context )
+
+
+
+
+
+
+
+
+
+
+
 
 # DONE
 @login_required
