@@ -115,12 +115,6 @@
     background-color:var(--darkred);
     }
     
-    
-    
-    
-    /********************************
-              HEADER
-    *********************************/
     header{
     width:100%;
     display:flex;
@@ -186,14 +180,16 @@
             BLOG CONTAINER
     *********************************/
     .blog_container{
+      
     width:100%;
     display:flex;
     align-items:top;
-    background-color:rgba(190, 240, 186, 0.849);
+    background-color:var(--white);
     }
     
     /*BLOG LEFT CONTENT*/
     .blog_content{
+      /* background-color: #f7fbff; */
     padding:2rem;
     width:100%;
     }
@@ -205,6 +201,7 @@
     }
     
     .left_content{
+      
     display:flex;
     align-items:top;
     justify-content: space-between;
@@ -219,12 +216,15 @@
     }
     
     .blog_card{
-        border-radius: 12px;
-    width:100%;
-    flex:0 0 48.5%;
-    overflow:hidden;
-    background-color:var(--white);
-    }
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      width:100%;
+      flex:0 0 48.5%;
+      overflow:hidden;
+      background-color:var(--white);
+      border: #000 1px solid;
+      }
+
     
     .blog_card:nth-child(1){
     flex:0 0 100%;
@@ -250,21 +250,21 @@
     }
     
     .blog_card .tag{
-        border-radius: 2px;
-    padding:5px 10px;
-    background-color:var(--yellow);
-    color:var(--white);
-    position:absolute;
-    right:1%;
-    top:3%;
-    font-size:12px;
-    }
+      border-radius: 2px;
+      padding:5px 10px;
+      background-color:var(--yellow);
+      color:var(--white);
+      position:absolute;
+      right:1%;
+      top:3%;
+      font-size:12px;
+      }
     
     .blog_card section{
-        
+      background: linear-gradient(90deg, #f5faff 0%, #eaf5ff 100%);
     padding:1rem;
     position:relative;
-    background-color:var(--white);
+    
     }
     
     .blog_card section .title{
@@ -328,6 +328,7 @@
     }
     
     .columns section{
+      
     padding:1rem;
     }
     
@@ -413,25 +414,25 @@
     background-position:center;
     transform: translateX( 700px );
     background-repeat:no-repeat;
-    animation: opaqTransition 28s cubic-bezier(0, 0, 0, 0.97) infinite;
+    animation: opaqTransition 2s cubic-bezier(0, 0, 0, 0.97) infinite;
     background-color:#f1f1f1;
     }
     
     .books .card_part.card_part-two {
     z-index: 6;
-    animation-delay: 7s;
+    animation-delay: 1s;
     background-repeat:no-repeat;
     }
     
     .books .card_part.card_part-three {
     z-index: 5;
-    animation-delay: 14s;
+    animation-delay: 2s;
     background-repeat:no-repeat;
     }
     
     .books .card_part.card_part-four {
     z-index: 4;
-    animation-delay: 21s;
+    animation-delay: 2s;
     background-repeat:no-repeat;
     }
     
@@ -479,7 +480,98 @@
     }
     
     
-    
+    .comment-section {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 20px;
+        margin: 20px 0; /* Add some margin for better spacing */
+      }
+      
+      .comment-section h2 {
+        margin-bottom: 15px;
+        font-size: 1.2em; /* Adjust heading size as needed */
+        font-weight: bold;
+      }
+      
+      .comment-form-row {
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+      }
+      
+      .comment-form-row label {
+        flex: 0 0 7%; /* Allocate a fixed width for labels */
+        margin-right: 2px;
+        margin-left: 3px;
+      }
+      
+      .comment-form-row input,
+      .comment-form-row textarea {
+        width: 100%; /* Make input fields fill the remaining space */
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        font-family: inherit; /* Inherit font from the surrounding context */
+      }
+      
+      .comment-form-row textarea {
+        height: 100px;
+        resize: vertical; /* Allow users to resize the comment box */
+      }
+      
+      .comment-form-row .butn {
+        background-color: #4CAF50; /* Green color for submit button */
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.2s ease-in-out;
+      }
+      
+      .comment-form-row .butn:hover {
+        background-color: #3e8e41; /* Darker green on hover */
+      }
+      
+      .comments-container {
+        border-top: 1px solid #ddd;
+        padding-top: 10px;
+        margin-top: 10px; /* Add some margin for separation */
+      }
+      
+      .comment { /* Class for individual comments (add this class dynamically to new comments) */
+        display: flex; /* Arrange comment content and profile picture side-by-side */
+        margin-bottom: 15px;
+        padding-bottom: 10px; /* Add some bottom padding for separation */
+        border-bottom: 1px dashed #ddd;
+      }
+      
+      .comment-profile-pic {
+        width: 50px; /* Adjust profile picture size as needed */
+        height: 50px;
+        border-radius: 50%; /* Make profile picture circular */
+        margin-right: 10px;
+      }
+      
+      .comment-content {
+        flex: 1; /* Allow comment content to fill remaining space */
+      }
+      
+      .comment-author {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+      
+      .comment-text {
+        line-height: 1.5; /* Adjust line spacing for better readability */
+      }
+
+      
+
+
+
+      
+
     /*COMMENTS*/
     .comments{
     position:relative;

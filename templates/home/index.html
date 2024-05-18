@@ -17,7 +17,7 @@
             <span class="tag">{{data.uploaded_at}}</span>
             </a>
             <section>
-            <a href="#" class="title">{{data.title}}</a>
+            <a href="{% url 'artical' data.slug %}" class="title">{{data.title}}</a>
             <p>{{ data.descript|truncatewords:20|safe }}</p>
             <p>
                 <i class="fa fa-eye"> {{data.views}}</i> views 
@@ -52,7 +52,9 @@
     <span class="title">New Books <a href="#" title="Explore More"><i class="fa fa-share"></i></a></span>
     <section>
         <div class="cards">
-        <div class="card_part card_part-one" style="background-image: url(book-1.png);"></div>
+        <div class="card_part card_part-one" style="background-image: url({% static "image/demo.jpg" %});">
+        {% comment %} <img src="{% static "image/demo.jpg" %}" alt=""> {% endcomment %}
+        </div>
         </div>
     </section>
     </div>

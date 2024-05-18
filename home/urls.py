@@ -10,6 +10,8 @@ urlpatterns = [
     
     path('', views.home, name="homes"),
     path('posts/', views.all_posts, name="all_posts"),
+    path('checker/', views.temp, name="teemmp"),
+
     path('<slug:slg>/', views.f404, name="homes"),
     path('registration/', views.Registration, name= "the_signup"),
     path('login/', views.the_login, name= "the_login"),
@@ -21,6 +23,8 @@ urlpatterns = [
     path('dashboard/your_posts/<slug:key>/', views.edit_post, name='edit_post'),
     path('delete_post/<slug:slug>/', views.delete_post, name='delete_post'),
     path('dashboard/your_posts/', views.your_posts, name='your_posts'),
+    
+
     
 
 

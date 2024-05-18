@@ -1,9 +1,9 @@
 from django.http import  HttpResponseRedirect
 from django.shortcuts import render, redirect
-from .forms import RegistrationForm , EditedPassChangeForm,CreatePostForm
+from .forms import RegistrationForm , EditedPassChangeForm,CreatePostForm,CommentForm
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import login,logout , update_session_auth_hash
+from django.contrib.auth import login,logout , update_session_auth_hash, authenticate
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404 
@@ -11,6 +11,9 @@ from .models import Contents, Comment, MsgFromAdmin, SayToMe, UserProfile, Categ
 from django.db.utils import IntegrityError
 from django.db import models
 from django.utils.html import strip_tags
+
+def temp(request):
+    return render(request, "temp.html")
 
 def home(request):
     category = request.GET.get('category')
@@ -110,6 +113,109 @@ def home(request):
     return render(request, "home/index.html", context=home_content  )
 
 
+# DONE
+def dynamic_option(request, option):
+    
+    if option == 'make_post':
+        return make_post(request)
+    elif option == 'your_posts':
+        return your_posts(request)
+    elif option == 'your_profile':
+        return your_profile(request)
+    elif option == 'change_password':
+        return change_password(request)
+    else:
+        return render(request, 'index.html')  # Handle invalid options
+
+# like, dislike 
+def artical_view(request, the_artical):
+    content = get_object_or_404(Contents, slug=the_artical)
+    # logic for read time 
+    descript_text = strip_tags(content.descript)
+    lenis = descript_text.replace(' ', '')
+    # ------------ print(len(timeneed))
+    # 100 --- 15s
+    # 1 -- 15/100
+    # len=140 --140*(15/100)
+    # min = x/60s
+    to_read = str((len(lenis) * (15/100)/60)).split('.')
+    #------------- print(f"{to_read[0]}.{(to_read[1])[:1]} min")
+    timeneed = (f"{to_read[0]}.{(to_read[1])[:1]} min")
+
+    # the most viewed post
+    most_viewed_post = Contents.objects.all().order_by('-views')[:6]
+    
+    
+    comments = Comment.objects.filter(content=content)
+    # print(content.views)
+    if request.method == "POST":
+        form = CommentForm(request.POST, request.FILES)
+        if form.is_valid():
+            the_form = form.save(commit=False)
+            the_form.content = content
+            the_form.save()
+            return redirect(request.path)
+        
+    else:
+        form = CommentForm()
+
+    # Assuming there's only one UserProfile instance associated with the article
+    user_profile = content.user.userprofile
+
+    context = {
+        'categories':Category.objects.all(),
+        'content': content,
+        'posts': most_viewed_post,
+        'user_profile': user_profile,
+        # Other than profile- for show comments in HTML
+        'all_comment': comments,
+        'read' : timeneed,
+        'form' : form,
+    }
+
+
+    content.views += 1
+    content.save()
+    # print(content.views)
+
+    return render(request, 'home/artical.html', context)
+
+
+def all_posts(request):
+    category = request.GET.get('category')
+    search_query = request.GET.get('searchpost')
+
+    if category:
+        all_post = Contents.objects.filter(category__name=category).order_by('-uploaded_at')
+        
+
+    elif search_query:
+        all_post = Contents.objects.filter(title__icontains=search_query).order_by('-uploaded_at')
+    else:
+        
+        all_post = Contents.objects.all().order_by('-uploaded_at')
+    
+
+    paginator = Paginator(all_post, 20)
+
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+
+    categories = Category.objects.all()
+    context = {
+        "page_obj":page_obj,
+        "categories":categories,
+        "top_5": None,
+    }
+    return render(request, "home/posts.html", context )
+
+
+
+
+
+
+# ================ ++++++++ AUTHORIZATION +++++++++ ==================
 
 # DONE
 def Registration(request):
@@ -138,7 +244,7 @@ def Registration(request):
             reg_form = RegistrationForm()
 
         context = {'form': reg_form}
-        return render(request, 'registation.html', context)
+        return render(request, 'auth/registation.html', context)
 
 # DONE
 def the_login(request):
@@ -147,19 +253,36 @@ def the_login(request):
         return redirect('homes')
 
     if request.method == 'POST':
-        the_form = AuthenticationForm(request=request, data=request.POST)
-        if the_form.is_valid():
-            user = the_form.get_user()
-            login(request, user)
-            messages.success(request, f"Hey {user.username}! Welcome to the BlogVerse. You can now manage your posts.")
-            return redirect("homes")
-        else:
-            messages.error(request, "Invalid username or password")
-            return redirect('the_login')
-    else:
-        the_form = AuthenticationForm()
+        if request.method == "POST":
+            username = request.POST.get('username')
+            password = request.POST.get('password')
 
-    return render(request, 'login.html', {'form': the_form,})
+            user = authenticate(request, username=username, password=password)
+            
+            if user is not None:
+                login(request, user)
+                messages.success(request, "You have successfully logged in.")
+                print("LOGIN DONE")
+                return redirect('homes')  # Redirect to a success page, e.g., home
+            else:
+                messages.error(request, "Invalid username or password.")   
+                print("Invalid")         
+
+        '''BELOW ONE ALSO WORK AND THIS IS IN-BUILT'''
+
+        # the_form = AuthenticationForm(request=request, data=request.POST)
+        # if the_form.is_valid():
+        #     user = the_form.get_user()
+        #     login(request, user)
+        #     messages.success(request, f"Hey {user.username}! Welcome to the BlogVerse. You can now manage your posts.")
+        #     return redirect("homes")
+        # else:
+        #     messages.error(request, "Invalid username or password")
+        #     return redirect('the_login')
+    # else:
+    #     the_form = AuthenticationForm()
+
+    return render(request, 'auth/login.html') 
 
 # Works 
 def the_logout(request):
@@ -169,7 +292,7 @@ def the_logout(request):
 
     return redirect('homes')
 
-
+# ===================== ++++++++++ DASHBOARD ++++++++++ =================
 # DONE 
 @login_required
 def the_dashb(request):
@@ -237,122 +360,11 @@ def make_post(request):
     return render(request, 'make_post.html', {'form': form, 'previous_page': previous_page})
 
 
-# DONE
-def dynamic_option(request, option):
-    
-    if option == 'make_post':
-        return make_post(request)
-    elif option == 'your_posts':
-        return your_posts(request)
-    elif option == 'your_profile':
-        return your_profile(request)
-    elif option == 'change_password':
-        return change_password(request)
-    else:
-        return render(request, 'index.html')  # Handle invalid options
-
-# like, dislike 
-def artical_view(request, the_artical):
-    content = get_object_or_404(Contents, slug=the_artical)
-    # logic for read time 
-    descript_text = strip_tags(content.descript)
-    lenis = descript_text.replace(' ', '')
-    # ------------ print(len(timeneed))
-    # 100 --- 15s
-    # 1 -- 15/100
-    # len=140 --140*(15/100)
-    # min = x/60s
-    to_read = str((len(lenis) * (15/100)/60)).split('.')
-    #------------- print(f"{to_read[0]}.{(to_read[1])[:1]} min")
-    timeneed = (f"{to_read[0]}.{(to_read[1])[:1]} min")
-
-    # the most viewed post
-    most_viewed_post = Contents.objects.all().order_by('-views')[:6]
-    
-    
-    comments = Comment.objects.filter(content=content)
-    # print(content.views)
-
-    # Assuming there's only one UserProfile instance associated with the article
-    user_profile = content.user.userprofile
-    if 'comment':
-        if request.method == 'POST':
-            commenter_name = request.POST['commenter_name']
-            commenter_photo = request.FILES.get('viewer_pic', default='avatar.png')
-            comment_text = request.POST['comment']
-            comment = Comment(
-                content=content,
-                commenter_name=commenter_name,
-                commenter_photo=commenter_photo,
-                comment=comment_text
-            )
-            comment.save()
-            return HttpResponseRedirect(request.get_full_path())
-
-    context = {
-        'categories':Category.objects.all(),
-        'content': content,
-        'posts': most_viewed_post,
-        'user_profile': user_profile,
-        # Other than profile- for show comments in HTML
-        'comments': comments,
-        'read' : timeneed,
-    }
-
-
-    content.views += 1
-    content.save()
-    # print(content.views)
-
-    return render(request, 'home/artical.html', context)
-
-
-def all_posts(request):
-    category = request.GET.get('category')
-    search_query = request.GET.get('searchpost')
-
-    if category:
-        all_post = Contents.objects.filter(category__name=category).order_by('-uploaded_at')
-        
-
-    elif search_query:
-        all_post = Contents.objects.filter(title__icontains=search_query).order_by('-uploaded_at')
-    else:
-        
-        all_post = Contents.objects.all().order_by('-uploaded_at')
-    
-
-    paginator = Paginator(all_post, 20)
-
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-
-
-    categories = Category.objects.all()
-    context = {
-        "page_obj":page_obj,
-        "categories":categories,
-        "top_5": None,
-    }
-    return render(request, "home/posts.html", context )
-
-
-
-
-
-
-
-
-
-
-
 
 # DONE
 @login_required
 def your_posts(request):
     
-
-
     user_posts = Contents.objects.filter(user=request.user)
     # descr = Contents.objects.values_list('descript', flat=True)
 
@@ -497,7 +509,7 @@ def f404(request, slg):
     if slg == 'contact':
         return feedback(request)
     else:
-        return render(request, '404.html', status=404)
+        return render(request, 'home/404.html', status=404)
     
 # Below all are temprory for checking purpose
 

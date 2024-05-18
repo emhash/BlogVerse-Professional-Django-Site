@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
-from .models import Category, Contents
+from .models import Category, Contents, Comment
 
 
 
@@ -19,11 +19,11 @@ class RegistrationForm(UserCreationForm):
     #     })
 
 #  ----- WORKS ALSO THIS METHOD (2) -----------
-    password1 = forms.CharField( widget=forms.PasswordInput( attrs={'class': 'input', 'placeholder': 'Password',} ) ,
+    password1 = forms.CharField( widget=forms.PasswordInput( attrs={'class': 'input-field', 'placeholder': 'Password',} ) ,
                                  label='Enter Password',
                                 )
 
-    password2 = forms.CharField( widget=forms.PasswordInput(attrs={ 'class': 'input', 'placeholder': 'Confirm Password',} ) ,
+    password2 = forms.CharField( widget=forms.PasswordInput(attrs={ 'class': 'input-field', 'placeholder': 'Confirm Password',} ) ,
                                  label='Confirm Password',
                                  
                                 )
@@ -36,19 +36,19 @@ class RegistrationForm(UserCreationForm):
 
         widgets = {
             'username': forms.TextInput(attrs={
-                'class': 'input',
+                'class': 'input-field',
                 'placeholder': 'user_name',
             }),
             'email': forms.TextInput(attrs={
-                'class': 'input',
+                'class': 'input-field',
                 'placeholder': 'example@gmail.com',
             }),
             'first_name': forms.TextInput(attrs={
-                'class': 'input',
+                'class': 'input-field',
                 'placeholder': 'First Name',
             }),
             'last_name': forms.TextInput(attrs={
-                'class': 'input',
+                'class': 'input-field',
                 'placeholder': 'Last Name',
             }),
         }
@@ -91,3 +91,16 @@ class EditedPassChangeForm(PasswordChangeForm):
         model = User
 
 
+# ---------------==========+++++++++++===========-----------
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment 
+        fields = "__all__"
+        exclude = ['content']
+
+        # widgets = {
+        #     'commenter_name': forms.TextInput(attrs={'class': 'form-control'}),
+        #     'commenter_photo': forms.FileInput(attrs={'class': 'form-outline'}),
+        #     'comment': forms.TextInput( attrs={'class': 'form-select'}),
+        # }
