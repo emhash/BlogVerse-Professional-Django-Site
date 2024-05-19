@@ -12,9 +12,6 @@ from django.db.utils import IntegrityError
 from django.db import models
 from django.utils.html import strip_tags
 
-def temp(request):
-    return render(request, "temp.html")
-
 def home(request):
     category = request.GET.get('category')
     search_query = request.GET.get('searchpost')
@@ -112,22 +109,7 @@ def home(request):
     
     return render(request, "home/index.html", context=home_content  )
 
-
-# DONE
-def dynamic_option(request, option):
-    
-    if option == 'make_post':
-        return make_post(request)
-    elif option == 'your_posts':
-        return your_posts(request)
-    elif option == 'your_profile':
-        return your_profile(request)
-    elif option == 'change_password':
-        return change_password(request)
-    else:
-        return render(request, 'index.html')  # Handle invalid options
-
-# like, dislike 
+# WORK REMAIN -- Like, Dislike 
 def artical_view(request, the_artical):
     content = get_object_or_404(Contents, slug=the_artical)
     # logic for read time 
@@ -180,7 +162,6 @@ def artical_view(request, the_artical):
 
     return render(request, 'home/artical.html', context)
 
-
 def all_posts(request):
     category = request.GET.get('category')
     search_query = request.GET.get('searchpost')
@@ -209,10 +190,6 @@ def all_posts(request):
         "top_5": None,
     }
     return render(request, "home/posts.html", context )
-
-
-
-
 
 
 # ================ ++++++++ AUTHORIZATION +++++++++ ==================
@@ -284,234 +261,17 @@ def the_login(request):
 
     return render(request, 'auth/login.html') 
 
-# Works 
+# Done
+@login_required
 def the_logout(request):
     logout(request)
     
-    messages.success(request, "You have successfully logged out! and you have no longer access to perform any operation")
+    messages.warning(request, "You have successfully logged out! and you have no longer access to perform any operation")
 
     return redirect('homes')
 
-# ===================== ++++++++++ DASHBOARD ++++++++++ =================
-# DONE 
-@login_required
-def the_dashb(request):
-    def viewer_in_format(num):
-        magnitudes = ['', 'K', 'M', 'G', 'T', 'P']
-        mag = 0
-        if num < 1000:
-            return str(num)
-        while num >= 1000:
-            mag += 1
-            num /= 1000
-        return f"{num}{magnitudes[mag]}"
 
-# FORMAT ALL NUMBERS IN 1k, 1M, 1B etc -->
-   
-    t_p = Contents.objects.filter(user=request.user).count()
-    t_l = Contents.objects.filter(user=request.user).aggregate(total_likes=models.Sum('likes'))['total_likes'] or 0
-    t_t = Contents.objects.filter(user=request.user).aggregate(total_views=models.Sum('views'))['total_views'] or 0
-    t_dl = Contents.objects.filter(user=request.user).aggregate(total_views=models.Sum('dislikes'))['total_views'] or 0
-
-
-    t_pst = viewer_in_format(t_p)
-    ttl_likes = viewer_in_format(t_l)
-    t_v = viewer_in_format(t_t)
-    
-    # print(f'answer  {viewer_in_format(t_v)}') 
-    # t_v = Contents.objects.all()
-    # print(t_p)
-
-    profile_data = {
-    'user': request.user,
-    'profile_picture': request.user.userprofile.profile_picture.url,
-    'bio_data': request.user.userprofile.bio_data,
-    # ---------------------
-    'ttl_pst' : t_pst,
-    't_lk' : ttl_likes,
-    't_v' : t_v,
-    'ttl_dslk' : t_dl,
-    
-    }
-    return render(request, 'dashboard.html', {'profile' : profile_data})
-
-
-# DONE
-
-@login_required
-def make_post(request):
-    previous_page = request.META.get('HTTP_REFERER')
-    if request.method == 'POST':
-        form = CreatePostForm(request.POST, request.FILES)
-        if form.is_valid():
-            post = form.save(commit=False)
-            category_name = request.POST.get('category')
-            if category_name is None or category_name == '':
-                default_category = get_object_or_404(Category, name='Others')
-                post.category = default_category
-           
-            post.user = request.user
-            
-            post.save()
-            messages.success(request, "Congrats! Your post has been uploaded successfully.")
-            return redirect('the_dashb')
-    else:
-        form = CreatePostForm()
-    return render(request, 'make_post.html', {'form': form, 'previous_page': previous_page})
-
-
-
-# DONE
-@login_required
-def your_posts(request):
-    
-    user_posts = Contents.objects.filter(user=request.user)
-    # descr = Contents.objects.values_list('descript', flat=True)
-
-    # print(descr)
-    content = {
-        'user_posts': user_posts,
-        'profile': {
-            'user': request.user,
-            'profile_picture': request.user.userprofile.profile_picture.url,
-            'bio_data': request.user.userprofile.bio_data,
-            }
-            # ---------------------
-
-    }
-
-    return render(request, 'your_posts.html', context=content)
-
-# DONE
-@login_required
-def your_profile(request):
-
-    profile = request.user.userprofile
-    
-    if request.method == "POST":
-
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        bio_data = request.POST.get('bio_data')
-        profile_picture = request.FILES.get('profile_picture')  # Get the uploaded file
-        if profile_picture:
-            profile.profile_picture = profile_picture
-            profile.save()
-        # Update user profile data
-        request.user.first_name = first_name
-        request.user.last_name = last_name
-        profile.bio_data = bio_data
-        request.user.save()
-        profile.save()
-
-
-    profile_data = {
-        'user': request.user,
-        'profile_picture': profile.profile_picture.url,
-        'bio_data': profile.bio_data,
-        'first_name': request.user.first_name,
-        'last_name': request.user.last_name,
-    }
-
-    context = {
-        'profile': profile_data,
-        
-    }
-
-    return render(request, 'your_profile.html', context)
-
-# DONE
-@login_required
-def change_password(request):
-
-    previous_page = request.META.get('HTTP_REFERER')
-    
-    if request.method == 'POST':
-        form = EditedPassChangeForm(user = request.user, data = request.POST)
-        if form.is_valid():
-            form.save()
-            update_session_auth_hash(request, form.user)
-            messages.success(request, "your password has been successfully changed ! ".title())
-    else:
-        form = EditedPassChangeForm(request.user)
-
-    alllll = {'form' : form, 
-              'previous_page': previous_page,
-              'profile': {'user': request.user,
-                          'profile_picture': request.user.userprofile.profile_picture.url,
-                          'bio_data': request.user.userprofile.bio_data,
-                            # ---------------------
-                            
-                          }
-            }
-
-    
-    return render(request, 'change_password.html' , context=alllll )
-
-
-# DONE
-@login_required
-def edit_post(request, key):
-    content = Contents.objects.get(slug=key)
-
-    if request.method == 'POST':
-        form = CreatePostForm(request.POST, request.FILES, instance=content)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Your chnages has been updated !")
-            return redirect('the_dashb')
-    else:
-        form = CreatePostForm(instance=content)
-
-    return render(request, 'edit.html', {'form': form, 'current_picture': content.picture})
-
-
-# DONE
-@login_required
-def delete_post(request, slug):
-    post = get_object_or_404(Contents, slug=slug, user=request.user)
-    if request.method == 'POST':
-        post.delete()
-        return redirect('your_posts')
-    else:
-        # Handle GET request if needed
-        pass
-
-
-# DONE
-def feedback(request):
-    if request.method == "POST":
-        your_data = SayToMe(
-            name_is=request.POST.get('name_is'),
-            saying=request.POST.get('saying')
-        )
-        messages.success(request, "Your feedback or your message has reached us. Thank you.")
-        your_data.save()
-        return redirect('homes')
-    return render(request, 'about.html')
-
-
-
-def f404(request, slg):
-    # print(slg)
-    if slg == 'dashboard':
-        return the_dashb(request)
-    if slg == 'donttrytohackadminpagethis-is-the-universal-admin-panel-lol':
-        return redirect('eha/donttrytohackadminpagethis-is-the-universal-admin-panel-lol/')
-    if slg == 'logout':
-        logout(request)
-        messages.success(request, "You have successfully logged out! and you have no longer access to perform any operation")
-        return redirect('homes')
-    if slg == 'login':
-        return the_login(request)
-    if slg == 'registration':
-        return Registration(request)
-    if slg == 'contact':
-        return feedback(request)
-    else:
-        return render(request, 'home/404.html', status=404)
-    
 # Below all are temprory for checking purpose
 
-
-# This is old Edit post function, 
+def temp(request):
+    return render(request, "temp.html")
