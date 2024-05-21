@@ -23,12 +23,12 @@
       {% csrf_token %}
       <div class="input-box">
         {% for row in form %}
+        {{ row }}
         {% if row.errors %}
         {% for error in row.errors %}
         <p style="color:red;">{{error}}</p>
         {% endfor %}
         {% endif %}
-          {{ row }}
         {% endfor %}
       </div>
       <div class="input-box">

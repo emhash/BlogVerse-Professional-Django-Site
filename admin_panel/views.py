@@ -1,8 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect, HttpResponseRedirect
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db import models
 
 from home.models import Contents, Category, Comment
+from home.forms import CreatePostForm
 
 @login_required
 def dashboard(request):
@@ -31,6 +33,78 @@ def dashboard(request):
 
     
     return render(request, "admin/dashboard.html", context )
+
+
+
+@login_required
+def dashboard_options(request, page):
+    if page =="create":
+        if request.method == 'POST':
+            form = CreatePostForm(request.POST, request.FILES)
+            if form.is_valid():
+                post = form.save(commit=False)
+                category_name = request.POST.get('category')
+                if category_name is None or category_name == '':
+                    default_category = get_object_or_404(Category, name='Others')
+                    post.category = default_category
+            
+                post.user = request.user
+                
+                post.save()
+                messages.success(request, "Congrats! Your post has been uploaded successfully.")
+                return redirect('dashboard')
+        else:
+            form = CreatePostForm()
+
+        context ={
+            "form":form,
+        }   
+        return render(request, "admin/create_post.html", context)
+    
+    elif page =="read":
+
+        data = Contents.objects.filter(user=request.user, )
+        context={
+            "data":data,
+        }
+        return render(request, "admin/read_post.html", context)
+        
+    else:
+        return render(request, "home/404.html")
+    
+    
+@login_required
+def update_post(request, uid):
+    post = get_object_or_404(Contents, pk=uid)
+
+    if request.method=="POST":
+        form = CreatePostForm(request.POST,request.FILES,instance=post )
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your post has been updated!")
+            return redirect(request.path)
+    else:
+        form = CreatePostForm(instance=post)
+
+    context = {
+        "form":form,
+    }
+    return render(request, "admin/update_post.html", context)
+
+@login_required
+def delete_post(request, uid):
+    try:
+        post = get_object_or_404(Contents, pk=uid)
+        if post.user == request.user:
+            post.delete()
+            messages.warning(request,"This post permanently deleted!")
+            return redirect("option", page="read")
+        else:
+            messages.error(request,"You are not permitted to delete this post! Fall back.")
+            return redirect(request.path)
+    except Exception as e:
+        messages.info(request, f"{e}")
+        return redirect(request.path)
 
 
 '''

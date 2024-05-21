@@ -7,163 +7,71 @@
 
 {% block content %}
 
-<main>
-    <h1>Analytics</h1>
-
-    <div class="analyse">
-        <div class="sales">
-            <div class="status">
-                <div class="info">
-                    <h3>Total Posts</h3>
-                    <h1>{{posts}}</h1>
-                </div>
-                <div class="progresss">
-                                              
-                    <img src="{% static "image/posts1.svg" %}" alt="">
-                    
-                </div>
-            </div>
-        </div>
-        <div class="visits">
-            <div class="status">
-                <div class="info">
-                    <h3>Total Views</h3>
-                    <h1>{{views}}</h1>
-                </div>
-                <div class="progresss">
-                    <img src="{% static "image/views.svg" %}" alt="">
-                </div>
-            </div>
-        </div>
-        <div class="searches">
-            <div class="status">
-                <div class="info">
-                    <h3>Total Likes</h3>
-                    <h1>{{likes}}</h1>
-                </div>
-                <div class="progresss">
-                    <img src="{% static "image/likes.svg" %}" alt="">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="recent-orders">
-        <h2>Most Viewed Posts</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Post Title</th>
-                    <th>Category</th>
-                    <th>Views</th>
-                    <th>Likes</th>
-                    <th></th>
-                </tr>
-
-            </thead>
-            <tbody>
-                {% for row in most_viewed %}
-                <tr>
-                    <td>{{row.title|truncatechars:":100"}}</td>
-                    <td>{{row.category}}</td>
-                    <td>{{row.views}}</td>
-                    <td>{{row.likes}}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        
-    </div>
-    <!-- End of Recent Orders -->
-
-</main>
-
-<div class="right-section">
-    <div class="nav">
-        <button id="menu-btn">
-            <span class="material-icons-sharp">
-                menu
-            </span>
-        </button>
-
-        <div class="profile">
+<div class="analyse">
+    <div class="sales">
+        <div class="status">
             <div class="info">
-                <p>Hey, <b>{{user}}</b></p>
-                <small class="text-muted">User</small>
+                <h3>Total Posts</h3>
+                <h1>{{posts}}</h1>
             </div>
-            <div class="profile-photo">
-                <img src="{{user.profile.profile_picture.url}}">
+            <div class="progresss">
+                                          
+                <img src="{% static "image/posts1.svg" %}" alt="">
+                
             </div>
-        </div>
-
-    </div>
-    <!-- End of Nav -->
-
-    <div class="user-profile">
-        <div class="logo">
-            <img src="{% static "image/blogverse.png" %}">
-            <h2>BlogVerse</h2>
-            <p>Sneak to the reality</p>
         </div>
     </div>
-
-    <div class="reminders">
-        <div class="header">
-            <h2>Reminders</h2>
-            <span class="material-icons-sharp">
-                notifications_none
-            </span>
-        </div>
-
-        <div class="notification">
-            <div class="icon">
-                <span class="material-icons-sharp">
-                    volume_up
-                </span>
+    <div class="visits">
+        <div class="status">
+            <div class="info">
+                <h3>Total Views</h3>
+                <h1>{{views}}</h1>
             </div>
-            <div class="content">
-                <div class="info">
-                    <h3>Time for next post</h3>
-                    <small class="text_muted">
-                        10:00 AM - 11:00 PM
-                    </small>
-                </div>
-                <span class="material-icons-sharp">
-                    more_vert
-                </span>
+            <div class="progresss">
+                <img src="{% static "image/views.svg" %}" alt="">
             </div>
         </div>
-
-        <div class="notification deactive">
-            <div class="icon">
-                <span class="material-icons-sharp">
-                    edit
-                </span>
-            </div>
-            <div class="content">
-                <div class="info">
-                    <h3>Next Topic</h3>
-                    <small class="text_muted">
-                        05:00 AM - 08:00 PM
-                    </small>
-                </div>
-                <span class="material-icons-sharp">
-                    more_vert
-                </span>
-            </div>
-        </div>
-
-        <div class="notification add-reminder">
-            <div>
-                <span class="material-icons-sharp">
-                    add
-                </span>
-                <h3>Add Reminder</h3>
-            </div>
-        </div>
-
     </div>
-
+    <div class="searches">
+        <div class="status">
+            <div class="info">
+                <h3>Total Likes</h3>
+                <h1>{{likes}}</h1>
+            </div>
+            <div class="progresss">
+                <img src="{% static "image/likes.svg" %}" alt="">
+            </div>
+        </div>
+    </div>
 </div>
+
+<div class="recent-orders">
+    <h2>Most Viewed Posts</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Post Title</th>
+                <th>Category</th>
+                <th>Views</th>
+                <th>Likes</th>
+                <th></th>
+            </tr>
+
+        </thead>
+        <tbody>
+            {% for row in most_viewed %}
+            <tr>
+                <td>{{row.title|truncatechars:":100"}}</td>
+                <td>{{row.category}}</td>
+                <td>{{row.views}}</td>
+                <td>{{row.likes}}</td>
+                <td>{{row.likes}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+</div>
+
 
 {% endblock content %}

@@ -111,25 +111,22 @@ def home(request):
 
 # WORK REMAIN -- Like, Dislike 
 def artical_view(request, the_artical):
+    user_profile = content.user.profile
+
     content = get_object_or_404(Contents, slug=the_artical)
-    # logic for read time 
+
+    # Logic for read time
     descript_text = strip_tags(content.descript)
     lenis = descript_text.replace(' ', '')
-    # ------------ print(len(timeneed))
-    # 100 --- 15s
-    # 1 -- 15/100
-    # len=140 --140*(15/100)
-    # min = x/60s
-    to_read = str((len(lenis) * (15/100)/60)).split('.')
-    #------------- print(f"{to_read[0]}.{(to_read[1])[:1]} min")
+    to_read = str((len(lenis) * (15 / 100) / 60)).split('.')
     timeneed = (f"{to_read[0]}.{(to_read[1])[:1]} min")
 
-    # the most viewed post
+    # The most viewed post
     most_viewed_post = Contents.objects.all().order_by('-views')[:6]
-    
-    
+    # Comments for the content
     comments = Comment.objects.filter(content=content)
-    # print(content.views)
+
+    # Handle comment form submission
     if request.method == "POST":
         form = CommentForm(request.POST, request.FILES)
         if form.is_valid():
@@ -137,28 +134,27 @@ def artical_view(request, the_artical):
             the_form.content = content
             the_form.save()
             return redirect(request.path)
-        
     else:
         form = CommentForm()
 
-    # Assuming there's only one UserProfile instance associated with the article
-    user_profile = content.user.userprofile
 
+    # Check if the article has been viewed in this session
+    has_viewed = request.session.get(f'viewed_article_{content.pk}', False)
+    if not has_viewed:
+        content.views += 1
+        content.save()
+        request.session[f'viewed_article_{content.pk}'] = True
+
+    # Context for rendering the template
     context = {
-        'categories':Category.objects.all(),
+        'categories': Category.objects.all(),
         'content': content,
         'posts': most_viewed_post,
         'user_profile': user_profile,
-        # Other than profile- for show comments in HTML
         'all_comment': comments,
-        'read' : timeneed,
-        'form' : form,
+        'read': timeneed,
+        'form': form,
     }
-
-
-    content.views += 1
-    content.save()
-    # print(content.views)
 
     return render(request, 'home/artical.html', context)
 

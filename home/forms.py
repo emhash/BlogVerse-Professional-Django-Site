@@ -65,10 +65,10 @@ class CreatePostForm(forms.ModelForm):
         fields = ['title', 'descript',  'category', 'picture',]
         labels = {'descript': 'Description', 'picture': 'Thumbnail'}
         widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'descript': forms.Textarea(attrs={'class': 'form-outline'}),
-            'category': forms.Select( attrs={'class': 'form-select'}),
-            'picture': forms.FileInput( attrs={'class': 'form-control'}),
+            'title': forms.TextInput(attrs={'class': 'input-field'}),
+            'descript': forms.Textarea(attrs={'class': ''}),
+            'category': forms.Select( attrs={'class': 'input-field'}),
+            'picture': forms.FileInput( attrs={'class': 'input-field'}),
         }
 
 
