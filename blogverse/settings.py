@@ -15,6 +15,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+LOGUN_URL = "/login/"
 
 # Application definition
 

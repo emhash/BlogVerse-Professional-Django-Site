@@ -111,9 +111,9 @@ def home(request):
 
 # WORK REMAIN -- Like, Dislike 
 def artical_view(request, the_artical):
-    user_profile = content.user.profile
 
     content = get_object_or_404(Contents, slug=the_artical)
+    user_profile = content.user.profile
 
     # Logic for read time
     descript_text = strip_tags(content.descript)
