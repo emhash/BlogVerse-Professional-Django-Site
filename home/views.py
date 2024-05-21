@@ -207,8 +207,9 @@ def Registration(request):
                     user = reg_form.save()
 
                     # Create a UserProfile for the user
-                    user_profile = UserProfile(user=user)
-                    user_profile.save()
+                    # user_profile = UserProfile(user=user)
+                    
+                    # user_profile.save()
 
                     messages.success(request, "Congrats! Your account was created successfully.")
                     return redirect('the_login')

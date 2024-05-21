@@ -1,7 +1,39 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.db import models
+
+from home.models import Contents, Category, Comment
+
+@login_required
+def dashboard(request):
+    current_user =request.user
+    data = Contents.objects.filter(user=current_user)
+    t_post = data.count()
+    t_like = 0
+    t_view = 0
+    t_dislik = 0
+    t_comment = 0
+    for post in data:
+        t_like += post.likes
+        t_view += post.views
+        t_dislik += post.dislikes
+        t_comment += Comment.objects.filter(content=post, content__user = current_user).count()
+
+    
+    context = {
+        "posts":t_post,
+        "likes":t_like,
+        "views":t_view,
+        "dislikes":t_dislik,
+        "comments":t_comment,
+        "most_viewed":data.order_by("-views"),
+    }
+
+    
+    return render(request, "admin/dashboard.html", context )
+
 
 '''
-
 # ===================== ++++++++++ DASHBOARD ++++++++++ =================
 # DONE 
 @login_required

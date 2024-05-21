@@ -33,7 +33,7 @@
           <a href="{% url "all_posts" %}">Posts</a>
           {% if user.is_authenticated %}
           <a href="{% url "logout" %}">| LogOut</a> 
-          <a href="#">| Dashboard</a> 
+          <a href="{% url "dashboard" %}">| Dashboard</a> 
           <a href="#">| Profile</a> 
           {% else %}
           <a href="{% url "the_signup" %}">| SignUp</a> 
