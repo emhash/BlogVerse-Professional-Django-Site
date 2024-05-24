@@ -48,9 +48,17 @@ def home(request):
     top_posts = []
     
     for category in cat:
-        top_post = Contents.objects.filter(category__name=category).order_by('-views').first()
+        top_post = Contents.objects.filter(category__name=category).order_by('-views')
+        top_post1 = top_post.first()
 
-        top_posts.append(top_post)
+        try:
+            top_post2 = top_post[1]
+        except:
+            top_post2=None
+
+        top_posts.append(top_post1)
+        if top_post2:
+            top_posts.append(top_post2)
     
     
     # print(top_posts)
